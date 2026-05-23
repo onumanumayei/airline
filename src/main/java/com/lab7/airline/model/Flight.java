@@ -1,5 +1,6 @@
 package com.lab7.airline.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,6 +40,9 @@ public class Flight {
     @Column(nullable = false)
     private FlightStatus status = FlightStatus.SCHEDULED;
 
+    // @JsonIgnore — щоб при серіалізації в JSON не було нескінченної рекурсії
+    // (Flight → assignments → Flight → assignments → ...)
+    @JsonIgnore
     @OneToMany(mappedBy = "flight", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FlightAssignment> assignments = new ArrayList<>();
 

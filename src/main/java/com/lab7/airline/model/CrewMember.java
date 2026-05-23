@@ -1,5 +1,6 @@
 package com.lab7.airline.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class CrewMember {
     @Column(nullable = false)
     private boolean available = true;
 
+    // @JsonIgnore — те саме: уникаємо рекурсії CrewMember → assignments →
+    // CrewMember
+    @JsonIgnore
     @OneToMany(mappedBy = "crewMember", cascade = CascadeType.ALL)
     private List<FlightAssignment> assignments = new ArrayList<>();
 
@@ -75,5 +79,9 @@ public class CrewMember {
 
     public List<FlightAssignment> getAssignments() {
         return assignments;
+    }
+
+    public void setAssignments(List<FlightAssignment> assignments) {
+        this.assignments = assignments;
     }
 }

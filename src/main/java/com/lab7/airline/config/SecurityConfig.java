@@ -30,6 +30,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/login", "/css/**").permitAll()
+                        // ← цей рядок доданий: REST API доступне без логіну
+                        .requestMatchers("/api/**").permitAll()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .defaultSuccessUrl("/flights", true)
